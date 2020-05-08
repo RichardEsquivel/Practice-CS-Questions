@@ -68,3 +68,14 @@ def product_1_to_n(n):
 
     print("computing fib(%i)" % n)
     return fib(n - 1) + fib(n - 2)
+
+
+
+'''
+Logarithms in binary search (ex. 1)
+This comes up in the time cost of binary search, which is an algorithm for finding a target number in a sorted list. The process goes like this:
+
+Start with the middle number: is it bigger or smaller than our target number? Since the list is sorted, this tells us if the target would be in the left half or the right half of our list.
+We've effectively divided the problem in half. We can "rule out" the whole half of the list that we know doesn't contain the target number.
+Repeat the same approach (of starting in the middle) on the new half-size problem. Then do it again and again, until we either find the number or "rule out" the whole set.
+'''
