@@ -47,7 +47,6 @@ import re
 import random
 import os
 import math
-!/bin/python3
 
 
 #
@@ -59,31 +58,52 @@ import math
 # We are going to be comparing the keytimes[i][1] value to the previous time and by comparing all pairs we can determine which key press took the longest.
 
 # This is a nested list
-keyTimes = [[0, 2], [1, 5], [0, 9], [2, 15]
+keyTimes = [[0, 2], [1, 5], [0, 9], [2, 15]]
+
 
 def slowestKey(keyTimes):
-    # Write your code here
-    slowestKeyCombo = 0
-    # loop through all the keytimes[i][1] - keytimes[i-1][1] to get the slowest key time or  largest value between two key presses
-    for last_key in range(len(keyTimes)):
+    slowest_key = keyTimes[0][0]
+    slowest_key_time = keyTimes[0][1]
 
-        for first_key in range(len(keyTimes)):
-        # For each first key
+    for i in range(1, len(keyTimes)):
+        current_key_time = keyTimes[i][1] - keyTimes[i - 1][1]
+
+        if current_key_time > slowest_key_time:
+            slowest_key = keyTimes[i][0]
+            slowest_key_time = keyTimes[i][1] - keyTimes[i - 1][1]
+# this is becaues for unicode the integer value for the slowest key would be what it is within the current list plus the unicode integer value of a from ord('a')
+    return chr(ord('a') + slowest_key)
 
 
- if __name__ == '__main__':
-    fptr= open(os.environ['OUTPUT_PATH'], 'w')
+# def slowestKey(keyTimes):
+#     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+#                'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+#     slowest_key = keyTimes[0][0]
+#     slowest_key_time = keyTimes[0][1]
 
-    keyTimes_rows= int(input().strip())
-    keyTimes_columns= int(input().strip())
+#     for i in range(1, len(keyTimes)):
+#         current_key_time = keyTimes[i][1] - keyTimes[i - 1][1]
 
-    keyTimes= []
+#         if current_key_time > slowest_key_time:
+#             slowest_key = keyTimes[i][0]
+#             slowest_key_time = keyTimes[i][1] - keyTimes[i - 1][1]
+#     return letters[slowest_key]
 
-    for _ in range(keyTimes_rows):
-        keyTimes.append(list(map(int, input().rstrip().split())))
+print(slowestKey(keyTimes))
 
-    result= slowestKey(keyTimes)
+#  if __name__ == '__main__':
+#     fptr= open(os.environ['OUTPUT_PATH'], 'w')
 
-    fptr.write(str(result) + '\n')
+#     keyTimes_rows= int(input().strip())
+#     keyTimes_columns= int(input().strip())
 
-    fptr.close()
+#     keyTimes= []
+
+#     for _ in range(keyTimes_rows):
+#         keyTimes.append(list(map(int, input().rstrip().split())))
+
+#     result= slowestKey(keyTimes)
+
+#     fptr.write(str(result) + '\n')
+
+#     fptr.close()
