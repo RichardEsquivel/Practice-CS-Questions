@@ -17,9 +17,9 @@
 
 # No "shorting"—you need to buy before you can sell. Also, you can't buy and sell in the same time step—at least 1 minute has to pass.
 
-stock_prices = [10, 7, 5, 8, 11, 9]
+# stock_prices = [10, 7, 5, 8, 11, 9]
 
-get_max_profit(stock_prices)
+# get_max_profit(stock_prices)
 
 '''
 By hand I would go through each with first value being a and second value being b if b was larger than a I would subract a from b then compare that with all other values that fulfill that condition. And keep the largest for that i I would then do this for each value and compare who had the largest value.
@@ -40,9 +40,9 @@ Bottoms up starts from beginning as opposed to a recursive which often starts fr
 # Recursive approach to problem of "multiply all numbers in the range of 1 to n"
 
 
-def product_1_to_n(n):
-    # n>=1 in this scenario
-    return n * product_1_to_n(n-1) if n > 1 else 1
+# def product_1_to_n(n):
+#     # n>=1 in this scenario
+#     return n * product_1_to_n(n-1) if n > 1 else 1
 
 # conditional ternary operator form in JS
 
@@ -56,19 +56,18 @@ def product_1_to_n(n):
 
 # For example, a simple recursive function for computing the nnth Fibonacci number:
 
-  def fib(n):
-    if n < 0:
-        raise IndexError(
-            'Index was negative. '
-            'No such thing as a negative index in a series.'
-        )
-    elif n in [0, 1]:
-        # Base cases
-        return n
+# def fib(n):
+#   if n < 0:
+#       raise IndexError(
+#           'Index was negative. '
+#           'No such thing as a negative index in a series.'
+#       )
+#   elif n in [0, 1]:
+#       # Base cases
+#       return n
 
-    print("computing fib(%i)" % n)
-    return fib(n - 1) + fib(n - 2)
-
+#   print("computing fib(%i)" % n)
+#   return fib(n - 1) + fib(n - 2)
 
 
 '''
@@ -79,3 +78,21 @@ Start with the middle number: is it bigger or smaller than our target number? Si
 We've effectively divided the problem in half. We can "rule out" the whole half of the list that we know doesn't contain the target number.
 Repeat the same approach (of starting in the middle) on the new half-size problem. Then do it again and again, until we either find the number or "rule out" the whole set.
 '''
+
+# 0 1
+# 1 2
+
+a = [10, 7, 5, 8, 11, 9]
+
+
+def square_list_in_place(int_list):
+    for index, element in enumerate(int_list):
+        int_list[index] = element ** 2
+
+
+# note on checking why this doesn't work
+# print(square_list_in_place(a))
+
+square_list_in_place(a)
+
+print(a)
