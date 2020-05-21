@@ -136,13 +136,14 @@ def merge_sort(the_list):
         return the_list
 
     # Split the input in half
-    middle_index = len(the_list) // 2
-    left = the_list[:middle_index]
-    right = the_list[middle_index:]
+    # middle_index = len(the_list) // 2
+    # left = the_list[:middle_index]
+    # right = the_list[middle_index:]
 
-    # Sort each half
-    left_sorted = merge_sort(left)
-    right_sorted = merge_sort(right)
+    # Sort each half, reduced number of assignments how does this reduce space complexity, one level of copy was removed by removing assignment of left
+    # and right, experimented with len of list as well
+    left_sorted = merge_sort(the_list[:(len(the_list)//2)])
+    right_sorted = merge_sort(the_list[(len(the_list)//2):])
 
     # Merge the sorted halves
     return combine_sorted_lists(left_sorted, right_sorted)
@@ -150,6 +151,6 @@ def merge_sort(the_list):
 
 a = [10, 7, 5, 8, 11, 9, 32, 89, 45, 66, 2, 1]
 
-b = merge_sort(a)
+d = merge_sort(a)
 
-print(b)
+print(d)

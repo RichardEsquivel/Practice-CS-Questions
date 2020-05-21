@@ -11,4 +11,8 @@ If the end time of the first meeting is => the start time of the second meeting 
 
 But comparing every meeting to every other meeting for the merge is o(n^2) ex 9x9.
 
-Can we try and get O(n) time. Which is doing this in one pass.
+Can we try and get O(n) time. Which is doing this in one pass. Ordering of meetings is random and is stored as a tuple, 
+
+What if we sorted our meetings by start time? Then any meetings that could be merged or checked by this comparison would always be adjacent!
+
+We can run several different kinds of sorts, sorting takes 
