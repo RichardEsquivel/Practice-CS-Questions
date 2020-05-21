@@ -97,6 +97,7 @@ Repeat the same approach (of starting in the middle) on the new half-size proble
 
 # print(a)
 
+# MERGE SORT
 
 def combine_sorted_lists(list_one, list_two):
     list_one_index = 0
