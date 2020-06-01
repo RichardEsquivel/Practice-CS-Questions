@@ -21,7 +21,7 @@
 
 # get_max_profit(stock_prices)
 
-'''
+"""
 By hand I would go through each with first value being a and second value being b if b was larger than a I would subract a from b then compare that with all other values that fulfill that condition. And keep the largest for that i I would then do this for each value and compare who had the largest value.
 
 A brute force approach tries all possible answers to find the correct solution.
@@ -35,7 +35,7 @@ Bottoms up algorithms.
 Recursion has memory cost when it builds up the call stack.
 
 Bottoms up starts from beginning as opposed to a recursive which often starts from the end and works backwords.
-'''
+"""
 
 # Recursive approach to problem of "multiply all numbers in the range of 1 to n"
 
@@ -70,14 +70,14 @@ Bottoms up starts from beginning as opposed to a recursive which often starts fr
 #   return fib(n - 1) + fib(n - 2)
 
 
-'''
+"""
 Logarithms in binary search (ex. 1)
 This comes up in the time cost of binary search, which is an algorithm for finding a target number in a sorted list. The process goes like this:
 
 Start with the middle number: is it bigger or smaller than our target number? Since the list is sorted, this tells us if the target would be in the left half or the right half of our list.
 We've effectively divided the problem in half. We can "rule out" the whole half of the list that we know doesn't contain the target number.
 Repeat the same approach (of starting in the middle) on the new half-size problem. Then do it again and again, until we either find the number or "rule out" the whole set.
-'''
+"""
 
 # 0 1
 # 1 2
@@ -98,6 +98,7 @@ Repeat the same approach (of starting in the middle) on the new half-size proble
 # print(a)
 
 # MERGE SORT
+
 
 def combine_sorted_lists(list_one, list_two):
     list_one_index = 0
@@ -143,8 +144,8 @@ def merge_sort(the_list):
 
     # Sort each half, reduced number of assignments how does this reduce space complexity, one level of copy was removed by removing assignment of left
     # and right, experimented with len of list as well
-    left_sorted = merge_sort(the_list[:(len(the_list)//2)])
-    right_sorted = merge_sort(the_list[(len(the_list)//2):])
+    left_sorted = merge_sort(the_list[: (len(the_list) // 2)])
+    right_sorted = merge_sort(the_list[(len(the_list) // 2) :])
 
     # Merge the sorted halves
     return combine_sorted_lists(left_sorted, right_sorted)
@@ -155,3 +156,61 @@ a = [10, 7, 5, 8, 11, 9, 32, 89, 45, 66, 2, 1]
 d = merge_sort(a)
 
 print(d)
+
+# Test to determine how many unclosed parentheses you have in a string
+
+# Enjoy your interview!
+
+"""
+"(())" = 0
+"(()))" = 1
+"()))" = 2
+"" = 0
+
+open_parens_to_match = 0
+unmatched_closed_parens = 1
+
+(()
+  ^
+  
+)()
+  ^
+
+print longest valid substring or count
+"""
+
+
+def num_parens_to_delete(s):
+    open_parens_to_match = 0  # 0
+    unmatched_closed_parens = 0  # 1
+    for ch in s:
+        if ch == "(":
+            open_parens_to_match += 1
+        if ch == ")":
+            if open_parens_to_match:
+                open_parens_to_match -= 1
+            else:
+                unmatched_closed_parens += 1
+    return open_parens_to_match + unmatched_closed_parens
+
+
+# can pass in a string to test and use assert to test the truth of a statement
+
+assert num_parens_to_delete("()(") == 1
+
+
+# print longest valid substring
+
+# Given a sorted array can you find the closest(values) k elements to a given number
+# Number may not be in the array and if there are ties pick the lowest value
+"""
+input = [2,3,5,7,8,9]
+k = 3
+target = 5
+output = [3,5,7]
+"""
+
+# Method of thinking, if they are sorted you can use a binary search
+# can be elements from left and right.
+# bisectleft and bisect right in Python, and bisect.insort
+
