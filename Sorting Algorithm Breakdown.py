@@ -13,7 +13,7 @@ def sort(self):
 
             self.swap_item()
             self.move_right()
-
+#this is a comment just to check
 #Robot Starts with a None value from self.item= None from the SortingRobot Class definition. 
 class SortingRobot:
     def __init__(self, l):
@@ -233,5 +233,4 @@ So I CAN NO LONGER MOVE RIGHT AGAIN AND THE SORTING ROBOT HOLDS ONTO THE NONE AN
 
 
 
-Recursion, kth element, 
  
