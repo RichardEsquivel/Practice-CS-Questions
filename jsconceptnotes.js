@@ -364,3 +364,187 @@ const element = {
   }
 };
 ```
+
+## Functions and Classes
+
+The function keyword can be used to define a function inside of an expression
+
+```jsx
+//This is recommended 
+const getRectArea = function(width, height) {
+  return width * height;
+};
+
+console.log(getRectArea(3, 4));
+// expected output: 12
+
+//This functions only executes in the global context but has similiar security concerns to eval.
+const sum= new Function('a', 'b', 'return a +b');
+new Function([arg1 [, arg2 [, ...argN]] ,] functionBody)
+
+//The eval() function evaluates JavaScript code represented as a string.
+//This allows you to execute a function from a passed in string, it is far too easy for bad actors to run any bit of arbitrary code when you use eval(). It is a function property of the global object 
+
+```
+
+[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval)
+
+### ******DO NOT USE eval()*****
+
+## Property Accessors
+
+Access an object's properties using dot notation or bracket notation.
+
+```jsx
+const person1 = {};
+person1['firstname'] = 'Mario';
+person1['lastname'] = 'Rossi';
+
+console.log(person1.firstname);
+// expected output: "Mario"
+
+const person2 = {
+  firstname: 'John',
+  lastname: 'Doe'
+};
+
+console.log(person2['lastname']);
+// expected output: "Doe"
+```
+
+function declaration is 
+
+```jsx
+function calcRectArea(width, height) {
+  return width * height;
+}
+```
+
+function expression is using an assignment to a variable to call a function
+
+```jsx
+const getRectArea = function(width, height) {
+  return width * height;
+};
+
+console.log(getRectArea(3, 4));
+// expected output: 12
+
+function [name]([param1[, param2[, ..., paramN]]]) {
+   statements
+}
+/*name Optional
+The function name. Can be omitted, in which case the function is anonymous. The name is only local to the function body.
+paramN Optional
+The name of an argument to be passed to the function.
+statements Optional
+The statements which comprise the body of the function.
+*/
+```
+
+ES6 Class and function declarations are equivalent
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+
+```jsx
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+```
+
+### Classes and Functions in JavaScript
+
+Classes in JS are syntactical sugar over JS existing prototype based inheritance system. 
+
+### Classes are special functions
+
+- Function Expressions- not hoisted
+- Function Declarations- Are hoisted
+- Class Expressions- Not hoisted
+- Class Declarations- Not hoisted
+
+Class expressions can be named or unnamed, name given is local to the class body, it can be retrieved through the class's name property.
+
+An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined.
+
+[https://developer.mozilla.org/en-US/docs/web/JavaScript/Reference/Operators/function](https://developer.mozilla.org/en-US/docs/web/JavaScript/Reference/Operators/function)
+
+```jsx
+(function () {
+    statements
+})();
+
+//the first part is the anyonymous function with it's scope taken out of the gglobal scape with the grouping operator and this prevents being able to access variables within the IIFE and not polluting the global scope namespace. Second part is the () which will immediately invoke the anonymous function by the JavaSript engine.
+//Assigning the variable to the IIFE stores the return value not the function definition.
+
+//Function expressions can be anonymously named, if you want to be able to access the function within the body of the expression you must give it a name.
+let math = {
+  'factit': function factorial(n) {
+    console.log(n)
+    if (n <= 1) {
+      return 1;
+    }
+    return n * factorial(n - 1);
+  }
+};
+
+math.factit(3) //3;2;1;
+
+//SYNCHRONOUS CALLBACKS
+
+function greeting(name) {
+  alert('Hello ' + name);
+}
+
+function processUserInput(callback) {
+  var name = prompt('Please enter your name.');
+  callback(name);
+}
+
+processUserInput(greeting);
+```
+
+## Blocking Code
+
+[https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Concepts](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Concepts)
+
+We don't want code to wait on the render of a previous bit of code before they populate as that creates an unresponsive page. 
+
+```jsx
+function expensiveOperation() {
+  for(let i = 0; i < 1000000; i++) {
+    ctx.fillStyle = 'rgba(0,0,255, 0.2)';
+    ctx.beginPath();
+    ctx.arc(random(0, canvas.width), random(0, canvas.height), 10, degToRad(0), degToRad(360), false);
+    ctx.fill()
+  }
+}
+
+fillBtn.addEventListener('click', expensiveOperation);
+
+alertBtn.addEventListener('click', () =>
+  alert('You clicked me!')
+);
+
+//IF we start expensive operation with the click and then try to click the button for 'you clicked me!' JS being single threaded in design will wait on the previous operation before outputting the second output.
+```
+
+Look into multi-threaded operations down the line. 
+
+Workers allow you to offload calculation of an expensive operation to a separate thread.
+
+[https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
+
+Shared Workers, parent is EventTarget. Workers run in another global context, DedicatedWorkersGlobalScope
+
+ServiceWorkers-proxy servers that sit between web applications.
+
+ChromeWorkers Firefox, Audio Workers.
+
+Web Workers are useful but they can' t access the DOM so they can't update UI just do the calculation of a number for it for example.  Still basically synchronous though. 
