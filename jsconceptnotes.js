@@ -548,3 +548,84 @@ ServiceWorkers-proxy servers that sit between web applications.
 ChromeWorkers Firefox, Audio Workers.
 
 Web Workers are useful but they can' t access the DOM so they can't update UI just do the calculation of a number for it for example.  Still basically synchronous though. 
+
+```jsx
+Main thread: Task A --> Task B --> |Task D|
+Worker thread: Task C -----------> |      |
+
+//if Task B or Task D relies on the result of Task C being delivered but it is no there yet we will have an issue. 
+
+//Another approach is with promises
+Main thread: Task A                   Task B
+    Promise:      |__async operation__|
+
+//Promise is a proxy for a value that is not necessarilyt known when the promise is created and has an ability for you to associate handlers with the failure or success of an asynchronous action
+pending: initial state, neither fulfilled nor rejected.
+fulfilled: meaning that the operation completed successfully.
+rejected: meaning that the operation failed.
+
+const myPromise = 
+  (new Promise(myExecutorFunc))
+  .then(handleFulfilledA,handleRejectedA)
+  .then(handleFulfilledB,handleRejectedB)
+  .then(handleFulfilledC,handleRejectedC);
+
+// or, perhaps better ...
+
+const myPromise =
+  (new Promise(myExecutorFunc))
+  .then(handleFulfilledA)
+  .then(handleFulfilledB)
+  .then(handleFulfilledC)
+  .catch(handleRejectedAny);
+```
+
+## Outside of Algorithm and Data Structure Optimizations
+
+https://medium.com/@JohanneA/tricks-to-writing-efficient-programs-692228a4defd
+
+# **Fundamental techniques**
+
+- **Code Simplification:** Most fast programs are simple, so keep it simple . Sources of harmful complexity includes: A lack of understanding the task and premature optimization.
+- **Problem Simplification:** To increase the efficiency of a program, simplify the problem it solves. Why store all values when you only need a few of them?
+- **Relentless suspicion:** Question the necessity of each instruction in a time critical piece of code and each field in a space critical data structure.
+- **Early binding:** Move work forward in time. So, do work now just once in hope of avoiding doing it many times over later on. This means storing pre-computed results, initializing variables as soon as you can and generally just moving code from places where it is executed many times to places where it is executed just once, if possible.
+1. Move computations outside of loops that could have been done outside:
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6d40651e-aaba-4838-aac5-e803dd436410/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6d40651e-aaba-4838-aac5-e803dd436410/Untitled.png)
+
+2. Loop fusion: If two loops close to one another operate on the same set of elements, combine their operational parts.
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cca1dee5-48b8-494c-b310-aca682709e00/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cca1dee5-48b8-494c-b310-aca682709e00/Untitled.png)
+
+**De Morgan's Laws(often able to be used.**
+
+---
+
+*Not* (**A** *and* **B**) is the same as *Not* **A** *or* *Not* **B**.
+
+*Not* (**A** *or* **B**) is the same as *Not* **A** *and* *Not* **B**.
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d42f8fd7-a5b9-42ff-964c-ffb1e7bd4a89/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d42f8fd7-a5b9-42ff-964c-ffb1e7bd4a89/Untitled.png)
+
+3. Exploit algebraic identities if a logical express can be reduced to an algebraically equivalent expression that is less expensive use that! Especially true for math functions such as square root or logarithms. 
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cebc5491-d0b9-4501-8039-2db9a0d542de/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cebc5491-d0b9-4501-8039-2db9a0d542de/Untitled.png)
+
+4. Reordering tests: Test should be arranged so the most inexpensive test and often successful tests precede expensive and rarely successful tests. Used mostly in if-else statements.
+
+5. Remove Boolean variables by using an if-else statement for the two values of the Boolean value(true/false).
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7343641d-b499-4247-9aa1-c800e10fe1c0/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7343641d-b499-4247-9aa1-c800e10fe1c0/Untitled.png)
+
+Overall Approach:
+
+Use statistics and analysis tools to determine where the hot spots are in your program. Focus your work on these hot spots.When the hot spots of a system have been isolated, these are the steps to take:
+
+- Identify the code to be changed.
+- Choose a rule to apply to it. Find out which of the rules best apply. Measure the effect of the modification. It might not have made a significant change, or it might potentially have made it worse.
+- Document the resulting program. Include a description of the clean code and of the modification made.
+
+If two many speed ups reduce readability and ability to understand focus instead of future use and being able to hand off code. Also make sure to document changes for those who may not understand a particular implementation the benefits it brings. Look up the work of those who have already solved this problem! Don't reinvent the wheel if needed.
+
+Note:Netscape and IE had different specifications for omitabilty with tags. Must give a spec document type defintion(DTD) a spec. SGML theologians. Overlapping hierarchies. Tim Bray and John Bozak lead committee of exports for HTML itself a DTD. SGML, XML specification subset of SGML, add end tags. This work was XML, just want to check that tags match to form a tree structure.
