@@ -629,3 +629,177 @@ Use statistics and analysis tools to determine where the hot spots are in your p
 If two many speed ups reduce readability and ability to understand focus instead of future use and being able to hand off code. Also make sure to document changes for those who may not understand a particular implementation the benefits it brings. Look up the work of those who have already solved this problem! Don't reinvent the wheel if needed.
 
 Note:Netscape and IE had different specifications for omitabilty with tags. Must give a spec document type defintion(DTD) a spec. SGML theologians. Overlapping hierarchies. Tim Bray and John Bozak lead committee of exports for HTML itself a DTD. SGML, XML specification subset of SGML, add end tags. This work was XML, just want to check that tags match to form a tree structure.
+
+
+# Classes in JS
+
+Classes in JavaScript are just special functions.
+
+```jsx
+class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+} *
+const newRect = new Rectangle(400, 800);
+console.log(newRect);
+
+Logs out: 
+Rectangle { height: 400, width: 800 }
+//constructor is foundation of every class, Remember: classes will return us objects.
+
+class Animal { 
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(this.name + ' makes a noise.');
+  }
+}
+
+//Notice that speak() is a method with some special syntax in this class. This method will not be a method on the object, but it will live on the object’s prototype instead, which is nifty when you’re worried about memory and such.
+
+//Sub Class from animal
+class Dog extends Animal {
+  constructor(name) {
+    super(name);   //copies binding of this or the definition of that property
+  }
+
+  speak() {
+    console.log(this.name + ' barks.');   //this will call the parent class Animal
+  }
+}
+
+const doggy = new Dog('Grizzly');
+
+doggy.speak();
+
+---> 'Grizzly barks.'
+//extends indicates that this class is a subclass of the folowing class, 
+//'class Cat Extends Animal', super allows us to copy the property definition and apply it to the subclass attributes that will be passed in. 
+
+```
+
+- The `object` our class returns will have attributes assigned to it from the `constructor()` function.
+- All methods attached to the class body will be stored on the `Objects` prototype in a special way. There is a bit more magic here than just `Object.create(Foo.prototype);` and `Class.call(this, attrs);` But now that we know this, we can accept that the class keyword does this gloriously for us.
+- The ‘extends’ keyword is used to `extend` a parent object. A clue to finding out if a class is a `sub-class` is to look for extends.
+- Finally, if you’re going to use `extend`, `super()` needs to be called from within the constructor function. This is to pass any new attributes back up to the constructor of the parent object.
+
+ super() tells a parent’s constructor to be concerned with the child’s attributes and abstracts away the Object.create(this, Class)
+
+This can now be written:
+
+```jsx
+function Child(childAttrs) {
+  Person.call(this, childAttrs); // this is the special sauce
+  this.isChild = childAttrs.isChild; // this will be a special attribute to Child
+}
+
+Child.prototype.checkIfChild = function() {
+  if(this.isChild) {
+    console.log(`${this.speak} and I am a child object`);
+  }
+};
+
+//As this!
+
+```
+
+### break and continue
+
+break allows us to break out of the loop, can also break out of a switch() statement
+
+```jsx
+var text = "";
+var i;
+for (i = 0; i < 10; i++) {
+  if (i === 3) { break; }
+  text += "The number is " + i + "<br>";
+}
+
+/*would print out
+The number is 0
+The number is 1
+The number is 2
+So it would stop the loop at 3 and the code after would not continue*/
+
+// A continue will skip the current step in the loop and continue on with the rest of the loop
+
+var text = "";
+var i;
+for (i = 0; i < 10; i++) {
+  if (i === 3) { continue; }
+  text += "The number is " + i + "<br>";
+}
+
+//Would print A loop with a continue statement. A loop which will skip the step where i = 3.
+
+The number is 0
+The number is 1
+The number is 2
+The number is 4
+The number is 5
+The number is 6
+The number is 7
+The number is 8
+The number is 9
+
+```
+
+This in JS is a pronoun to use in place of an object. It gives you the object's context, it has nothing to do with where the function is written but where and when the function is called. 
+
+### 4 Principles
+
+- Global Binding
+- Implicit binding- functions in an object are a method, object left of dot gets this context.
+- New binding, this is referring to object created. whenever constructor function is used this refers to the specific instance of that object created.
+- Explicit binding- .bind .call .apply overriding what the this keyword applies to. Whenever JS bind call or apply method is used this is explicitly defined.  console.log(this) will point to the global object the totality of JS. Global or window binding.
+
+### Constructor function and Prototypes
+
+with this.name, this. etc. Instantiated by const or let variable = new Object({properties})
+
+Object Oriented Programming: Objects over functions, Data over logic, a logical procedure that takes in input data, processes it and returns it as output. Java and C#, pseudo-classical inheritance and. 
+
+Constructors are also known as Object creator functions, their purpose to receive an object and produce a new object. A constructor function in JS is indicated by convention with a capitalized function. Constructor functions behave like any other function until we use the new keyword. Instantiate call upon the class of the constructor and using that constructor to produce an object. this becomes the object which will be returned by new. 
+
+### The Object Prototype
+
+- The mechanism by which all objects can inherit properties from one another.
+- Allows one to deliberately modify an object's properties.
+- Helps to avoid memory problems
+- Allows one to extend an object's properties to another object
+- Can be very dangerous, you can overwrite an entire object's methods.
+- All objects have a prototype in JS assigned to it.
+
+Prototypical Inheritance
+
+```jsx
+function Child(childAttributes) {
+  Person.call(this, childAttributes); // binding this to Person
+  this.isChild = childAttributes.isChild; // this will be a special attribute to Child
+}
+Child.prototype = Object.create(Person.prototype); //this will create a proptype on child that has the same properties as defined in Person\
+
+const pebbles = new Child({
+  age: 3,
+  name: 'Pebbles',
+  homeTown: 'Bedrock',
+});
+pebbles.speak()
+
+//prints out
+Hello, my name is Pebbles
+
+//this will be object that constructor function creates
+```
+
+Weirdness of inheritance: .call allows us to pass(this, attributes) and build a new object with properties defined by the parent function. 
+
+We need to say that Kiwi.prototype is the same as the parent's prototype = Object.create(Fruit.prototype) in order to access the parent's prototype methods. 
+
+Classes in JS are not the same in JS in how they work. Classes are constructors and prototypes under the hood in JS.  Classes in JS are special functions. Class declarations and class expressions.
+
+Classes are built with constructors. constructor gets passed in properties that will be used to build object and the this will refer to that object
